@@ -17,7 +17,7 @@ pip install openctp-tts
 
 ## Example
 
-[Demo](https://github.com/Jedore/openctp-ctp-python/tree/main/demo)
+[Demo](https://github.com/Jedore/openctp-tts-python/tree/main/demo)
 
 ```python
 from openctp_tts import mdapi, tdapi
