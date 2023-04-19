@@ -3,7 +3,7 @@
 """
 import random
 
-from openctp_ctp import tdapi
+from openctp_tts_667 import tdapi
 
 
 class CTdSpiImpl(tdapi.CThostFtdcTraderSpi):
@@ -47,7 +47,11 @@ class CTdSpiImpl(tdapi.CThostFtdcTraderSpi):
 
 
 if __name__ == '__main__':
-    td_front = 'tcp://121.37.80.177:20002'
+    td_front = random.choice(('tcp://121.37.80.177:20002',
+                              'tcp://121.37.90.193:20002',
+                              'tcp://42.192.226.242:20002',
+                              ))
+
     # user/password 需要更换为自己的
     user = 'user'
     password = 'password'

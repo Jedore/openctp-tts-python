@@ -1,9 +1,8 @@
 """
     行情API demo
 """
-import random
 
-from openctp_tts import mdapi
+from openctp_tts_667 import mdapi
 
 
 class CMdSpiImpl(mdapi.CThostFtdcMdSpi):
@@ -30,6 +29,8 @@ class CMdSpiImpl(mdapi.CThostFtdcMdSpi):
         """ 深度行情 """
         print("InstrumentID:", pDepthMarketData.InstrumentID, " LastPrice:", pDepthMarketData.LastPrice,
               " Volume:", pDepthMarketData.Volume, " PreSettlementPrice:", pDepthMarketData.PreSettlementPrice,
+              " PreClosePrice:", pDepthMarketData.PreClosePrice, " TradingDay:", pDepthMarketData.TradingDay)
+
     def OnRspSubMarketData(self, pSpecificInstrument: mdapi.CThostFtdcSpecificInstrumentField,
                            pRspInfo: mdapi.CThostFtdcRspInfoField, nRequestID: int, bIsLast: bool):
         """ 订阅行情应答 """
