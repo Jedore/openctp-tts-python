@@ -6,7 +6,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Build & Publish 667
+name: Test Build & Publish 667
 
 on: [ workflow_dispatch ]
 
@@ -25,7 +25,7 @@ jobs:
         uses: actions/setup-python@v3
         with:
           python-version: "3.11"
-      - name: Sync files
+      - name: Generate projects files
         run: python templates/sync.py 667
       - name: Install dependencies
         run: |
@@ -34,7 +34,7 @@ jobs:
         working-directory: openctp-tts-667
         run: |
           export CIBW_REPAIR_WHEEL_COMMAND=
-          python -m cibuildwheel --platform linux --config-file pyproject.toml --output-dir ../dist
+          python -m cibuildwheel --platform windows --config-file pyproject.toml --output-dir ../dist
         shell: bash
       - name: Install Package
         run: |

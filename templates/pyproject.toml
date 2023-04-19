@@ -82,6 +82,6 @@ exclude = [
 path = "hatch_build_hook.py"
 
 [tool.cibuildwheel]
-skip = "pp* *-musllinux* *-manylinux_i686"
+skip = "pp* *-musllinux* *-manylinux_i686 *win32 *win_arm64"
 #test-requires = "pytest"
 #test-command = "TEST"
