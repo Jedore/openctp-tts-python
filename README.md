@@ -3,7 +3,7 @@
         <img src="https://badgen.net/badge/tts/6.3.15|6.3.19|6.5.1|6.6.1|6.6.7|6.6.9/cyan" />
     </a>       
     <a href="#">         
-        <img src="https://badgen.net/badge/platform/windows|linux|macos/cyan" />  
+        <img src="https://badgen.net/badge/platform/windows|linux/cyan" />  
     </a>        
     <a href="#">     
         <img src="https://badgen.net/badge/python/3.7|3.8|3.9|3.10|3.11/cyan" />          
@@ -87,7 +87,6 @@ td_api = tdapi.CThostFtdcTraderApi.CreateFtdcTraderApi('user_id')
 - 支持多平台
     - Windows
     - Linux
-    - Macos
 
 ## 核心:art:
 
@@ -103,6 +102,4 @@ graph TD;
 ## 更多信息:page_facing_up:
 
 - [openctp](https://github.com/openctp/openctp)
-- QQ交流群 
-
-    <img src="https://user-images.githubusercontent.com/17944025/231727684-fb62f5f9-71d8-448f-9e35-255639756bb2.png" width="200px">
+- QQ交流群 127235179
