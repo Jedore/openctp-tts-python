@@ -48,8 +48,8 @@
 
 -----
 
-## 项目说明:basecampy:
-openctp TTS 提供了稳定的7x24模拟交易平台, 完全兼容上期技术官方CTPAPI接口，同样也是 C++ 版本。本项目提供了生成Python库，用于使用Python接入TTS系统呢。
+## 项目说明:golf:
+openctp TTS 提供了稳定的7x24模拟交易平台, 完全兼容上期技术官方CTPAPI接口，同样也是 C++ 版本。本项目提供了Python库，用于使用Python接入TTS系统。
 使用方法同[openctp-ctp-python](https://github.com/Jedore/openctp-ctp-python)
 
 限于精力有限，本项目只是进行了 Python版TTS 的打包上传及简单的连接测试，正式使用前请一定进行充分的测试。
