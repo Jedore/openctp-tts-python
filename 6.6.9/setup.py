@@ -147,7 +147,7 @@ with open("README.md", mode="r", encoding="utf8") as fb:
     long_description = fb.read()
 
 setuptools.setup(
-    name="openctp-ctp",
+    name="openctp-tts",
     version="6.6.9",
     ext_modules=[
         extension("_thostmduserapi", sources_md),
@@ -162,10 +162,10 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     author="Jedore",
     author_email="jedorefight@gmail.com",
-    packages=["openctp_ctp"],
-    package_dir={"openctp_ctp": package_dir},
+    packages=["openctp_tts"],
+    package_dir={"openctp_tts": package_dir},
     package_data={
-        "openctp_ctp": ["*.a", "*.so", "*.dll", "*.pyd", "*.dylib"],
+        "openctp_tts": ["*.a", "*.so", "*.dll", "*.pyd", "*.dylib"],
     },
     url="https://github.com/openctp/openctp-ctp-python",
     keywords=["openctp", "ctp", "ctpapi", "trading", "investment"],
