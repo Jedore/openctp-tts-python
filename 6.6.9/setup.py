@@ -8,7 +8,7 @@ import sysconfig
 import setuptools
 from setuptools.command import build_py, build_ext
 
-package_dir = "openctp-ctp"
+package_dir = "openctp-tts"
 link_args = []
 compile_args = []
 libs = []
@@ -167,8 +167,8 @@ setuptools.setup(
     package_data={
         "openctp_tts": ["*.a", "*.so", "*.dll", "*.pyd", "*.dylib"],
     },
-    url="https://github.com/openctp/openctp-ctp-python",
-    keywords=["openctp", "ctp", "ctpapi", "trading", "investment"],
+    url="https://github.com/openctp/openctp-tts-python",
+    keywords=["openctp", "tts", "ctpapi", "trading", "investment"],
     license="BSD-3-Clause",
     classifiers=[
         "License :: OSI Approved :: BSD License",
