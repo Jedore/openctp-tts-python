@@ -11,7 +11,7 @@ name: Test Linux
 on: [ workflow_dispatch ]
 
 env:
-  CTP_VERSION: "6.6.9"
+  CTP_VERSION: "6.3.15"
 
 jobs:
 
@@ -32,8 +32,8 @@ jobs:
           cd $CTP_VERSION
           python -m cibuildwheel --platform linux --output-dir ../dist
           ls -al ../dist
-#      - name: Publish to test PyPI
-#        uses: pypa/gh-action-pypi-publish@release/v1
-#        with:
-#          password: ${{ secrets.TEST_PYPI_API_TOKEN }}
-#          repository-url: https://test.pypi.org/legacy/
+      - name: Publish to test PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.TEST_PYPI_API_TOKEN }}
+          repository-url: https://test.pypi.org/legacy/
