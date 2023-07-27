@@ -37,10 +37,28 @@ jobs:
           install_name_tool -id @loader_path/libthosttraderapi_se.dylib mac_arm64/libthosttraderapi_se.dylib
           python -m cibuildwheel --platform macos --output-dir ../dist
           ls -al ../dist
+      - name: Store Package
+        uses: actions/upload-artifact@v3
+        with:
+          name: python-package-distribution
+          path: dist/
+
+  publish:
+    needs:
+      - build-mac
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Set up Python 3.7
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.7
+      - name: Download Package
+        uses: actions/download-artifact@v3
+        with:
+          name: python-package-distribution
+          path: dist/
       - name: Publish to test PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           password: ${{ secrets.TEST_PYPI_API_TOKEN }}
           repository-url: https://test.pypi.org/legacy/
-
-
