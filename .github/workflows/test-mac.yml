@@ -33,8 +33,6 @@ jobs:
           cd $CTP_VERSION
           install_name_tool -id @loader_path/libthostmduserapi_se.dylib mac64/libthostmduserapi_se.dylib
           install_name_tool -id @loader_path/libthosttraderapi_se.dylib mac64/libthosttraderapi_se.dylib
-          install_name_tool -id @loader_path/libthostmduserapi_se.dylib mac_arm64/libthostmduserapi_se.dylib
-          install_name_tool -id @loader_path/libthosttraderapi_se.dylib mac_arm64/libthosttraderapi_se.dylib
           python -m cibuildwheel --platform macos --output-dir ../dist
           ls -al ../dist
       - name: Store Package
