@@ -1,10 +1,10 @@
 import glob
 import os
 import pathlib
+import platform
 import shutil
 import sys
 import sysconfig
-import platform
 
 import setuptools
 from setuptools.command import build_py, build_ext
@@ -63,14 +63,14 @@ if sys.platform.startswith("win32"):
         print("Unsupported windows arch!")
         exit(-1)
 
-    libs = glob.glob(os.path.join(base_dir, "*.dll"))
-    libraries = [pathlib.Path(lib).stem for lib in libs]
+    md_lib = os.path.join(base_dir, "thostmduserapi_se.dll")
+    td_lib = os.path.join(base_dir, "thosttraderapi_se.dll")
 
 elif sys.platform.startswith("linux"):
     custom_compiler()
     base_dir = "linux64"
-    libs = glob.glob(os.path.join(base_dir, "lib*.so"))
-    libraries = [pathlib.Path(lib).stem[3:] for lib in libs]
+    md_lib = os.path.join(base_dir, "libthostmduserapi_se.so")
+    td_lib = os.path.join(base_dir, "libthosttraderapi_se.so")
     compile_args.append("-c")
     compile_args.append("-fPIC")
     link_args.append("-Wl,-shared,-fPIC,--enable-new-dtags,-rpath,.")
@@ -81,13 +81,16 @@ elif sys.platform.startswith("darwin"):
         base_dir = "mac_arm64"
     else:
         base_dir = "mac64"
-    libs = glob.glob(os.path.join(base_dir, "*.dylib"))
-    libraries = [pathlib.Path(lib).stem[3:] for lib in libs]
+    md_lib = os.path.join(base_dir, "libthostmduserapi_se.dylib")
+    td_lib = os.path.join(base_dir, "libthosttraderapi_se.dylib")
     compile_args.append("-std=c++11")
 
 else:
     print("Unsupported platform!")
     exit(-1)
+
+libraries_md = [pathlib.Path(md_lib).stem.lstrip("lib")]
+libraries_td = [pathlib.Path(td_lib).stem.lstrip("lib")]
 
 include_dirs = [
     base_dir,
@@ -118,9 +121,9 @@ class BuildPy(build_py.build_py):
     def run(self):
         self.run_command("build_ext")
 
-        if not sys.platform.startswith("linux"):
-            for lib in libs:
-                shutil.copy(lib, package_dir)
+        if sys.platform.startswith("win"):
+            shutil.copy(md_lib, package_dir)
+            shutil.copy(td_lib, package_dir)
 
         for lib in glob.glob(os.path.join("build", "lib*", "_*")):
             name = os.path.basename(lib)
@@ -131,13 +134,13 @@ class BuildPy(build_py.build_py):
         return super().run()
 
 
-def extension(name, sources):
+def extension(name, sources, _libraries):
     return setuptools.Extension(
         name,
         sources,
         include_dirs=include_dirs,
         library_dirs=library_dirs,
-        libraries=libraries,
+        libraries=_libraries,
         extra_compile_args=compile_args,
         extra_link_args=link_args,
         language="c++",
@@ -152,8 +155,8 @@ setuptools.setup(
     name="openctp-tts",
     version="6.6.9",
     ext_modules=[
-        extension("_thostmduserapi", sources_md),
-        extension("_thosttraderapi", sources_td),
+        extension("_thostmduserapi", sources_md, libraries_md),
+        extension("_thosttraderapi", sources_td, libraries_td),
     ],
     cmdclass={
         "build_py": BuildPy,
