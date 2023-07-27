@@ -1,4 +1,4 @@
-cibuildwheel==2.14.0
+cibuildwheel==2.13.1
 pytest==7.4.0
 setuptools==67.6.1
 twine==4.0.2
