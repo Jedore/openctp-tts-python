@@ -121,7 +121,7 @@ class BuildPy(build_py.build_py):
     def run(self):
         self.run_command("build_ext")
 
-        if sys.platform.startswith("win"):
+        if not sys.platform.startswith("linux"):
             shutil.copy(md_lib, package_dir)
             shutil.copy(td_lib, package_dir)
 
