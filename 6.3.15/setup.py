@@ -121,7 +121,7 @@ class BuildPy(build_py.build_py):
     def run(self):
         self.run_command("build_ext")
 
-        if sys.platform.startswith("win"):
+        if not sys.platform.startswith("linux"):
             shutil.copy(md_lib, package_dir)
             shutil.copy(td_lib, package_dir)
 
@@ -153,7 +153,7 @@ with open("README.md", mode="r", encoding="utf8") as fb:
 
 setuptools.setup(
     name="openctp-tts",
-    version="6.3.15.0",
+    version="6.3.15.1",
     ext_modules=[
         extension("_thostmduserapi", sources_md, libraries_md),
         extension("_thosttraderapi", sources_td, libraries_td),
