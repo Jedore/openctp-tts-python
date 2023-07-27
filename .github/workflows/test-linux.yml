@@ -10,6 +10,9 @@ name: Test Linux
 
 on: [ workflow_dispatch ]
 
+env:
+  CTP_VERSION: "6.6.9"
+
 jobs:
 
   build-linux:
@@ -25,8 +28,8 @@ jobs:
         run: |
           pip install -r requirements.txt
       - name: Building Package
-        working-directory: 6.6.9
         run: |
+          cd $CTP_VERSION
           python -m cibuildwheel --platform linux --output-dir ../dist
           ls -al ../dist
 #      - name: Publish to test PyPI

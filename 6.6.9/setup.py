@@ -4,6 +4,7 @@ import pathlib
 import shutil
 import sys
 import sysconfig
+import platform
 
 import setuptools
 from setuptools.command import build_py, build_ext
@@ -76,12 +77,13 @@ elif sys.platform.startswith("linux"):
 
 elif sys.platform.startswith("darwin"):
     custom_compiler()
-    base_dir = "mac64"
-    libs = glob.glob(os.path.join(base_dir, "*.a"))
+    if platform.machine() == "arm64":
+        base_dir = "mac_arm64"
+    else:
+        base_dir = "mac64"
+    libs = glob.glob(os.path.join(base_dir, "*.dylib"))
     libraries = [pathlib.Path(lib).stem[3:] for lib in libs]
     compile_args.append("-std=c++11")
-    # sources_md = [os.path.join(package_dir, "thostmduserapi_mac.i")]
-    # sources_td = [os.path.join(package_dir, "thosttraderapi_mac.i")]
 
 else:
     print("Unsupported platform!")
@@ -116,7 +118,7 @@ class BuildPy(build_py.build_py):
     def run(self):
         self.run_command("build_ext")
 
-        if not sys.platform.startswith('linux'):
+        if not sys.platform.startswith("linux"):
             for lib in libs:
                 shutil.copy(lib, package_dir)
 
@@ -157,7 +159,7 @@ setuptools.setup(
         "build_py": BuildPy,
         "build_ext": BuildExt,
     },
-    description="A package for CTPAPI",
+    description="A package for OPENCTP TTS",
     long_description=long_description,
     long_description_content_type="text/markdown",
     author="Jedore",
