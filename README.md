@@ -63,3 +63,4 @@ td_api = tdapi.CThostFtdcTraderApi.CreateFtdcTraderApi('user_id')
 ## 其他说明
 
 - 关于TTS更多的信息参见 [openctp](https://github.com/openctp/openctp)
+- [更新日志](CHANGELOG.md)
