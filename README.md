@@ -1,23 +1,22 @@
-<p align="center">     
-    <a href="#" target="_blank">
-        <img src="https://badgen.net/badge/tts/6.3.15|6.3.19|6.5.1|6.6.1|6.6.7|6.6.9/cyan" />
-    </a>       
-    <a href="#">         
-        <img src="https://badgen.net/badge/platform/windows_x64|linux_x64|mac_64/cyan" />  
-    </a>        
-</p>
-
-<p align="center">               
-    <a href="#">     
-        <img src="https://badgen.net/badge/python/3.7|3.8|3.9|3.10|3.11/cyan" />          
-    </a> 
-    <a href="https://pypi.org/project/openctp-tts-6315" target="_blank">                  
-        <img src="https://badgen.net/badge/pypi/openctp-tts/blue" />     
-    </a>     
-</p>
+<h1 align="center">OPENCTP-TTS</h1>
 
 <p align="center">          
     <em>:rocket:以 Python 的方式，简化对接 TTS 的过程，节省精力，快速上手</em>  
+</p>
+
+<p align="center">     
+    <a href="https://pypi.org/project/openctp-tts" target="_blank">                  
+        <img src="https://badgen.net/badge/pypi/openctp-tts/green" />     
+    </a>     
+    <a href="#" target="_blank">
+        <img src="https://badgen.net/badge/tts/6.3.15|6.3.19|6.5.1|6.6.1|6.6.7|6.6.9/green" />
+    </a>       
+    <a href="#">     
+        <img src="https://badgen.net/badge/python/3.7|3.8|3.9|3.10|3.11/green" />          
+    </a> 
+    <a href="#">         
+        <img src="https://badgen.net/badge/plat/Windows|Linux|Mac/green" />  
+    </a>        
 </p>
 
 -----
@@ -56,9 +55,9 @@ td_api = tdapi.CThostFtdcTraderApi.CreateFtdcTraderApi('user_id')
     - 6.6.9_20220920
 - 支持多版本 Python (3.7 ~ 3.11)
 - 支持多平台
-    - Windows
-    - Linux
-    - Mac
+    - Windows x64
+    - Linux x64
+    - Mac x64 arm64
 
 ## 其他说明
 
