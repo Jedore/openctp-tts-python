@@ -153,7 +153,7 @@ with open("README.md", mode="r", encoding="utf8") as fb:
 
 setuptools.setup(
     name="openctp-tts",
-    version="6.6.1",
+    version="6.6.1.0",
     ext_modules=[
         extension("_thostmduserapi", sources_md, libraries_md),
         extension("_thosttraderapi", sources_td, libraries_td),

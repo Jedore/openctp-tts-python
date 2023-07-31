@@ -59,6 +59,8 @@ jobs:
       - name: Building Package
         run: |
           cd $CTP_VERSION
+          lipo mac64/libthostmduserapi_se.dylib mac_arm64/libthostmduserapi_se.dylib -output mac64/libthostmduserapi_se.dylib -create
+          lipo mac64/libthosttraderapi_se.dylib mac_arm64/libthosttraderapi_se.dylib -output mac64/libthosttraderapi_se.dylib -create
           install_name_tool -id @loader_path/libthostmduserapi_se.dylib mac64/libthostmduserapi_se.dylib
           install_name_tool -id @loader_path/libthosttraderapi_se.dylib mac64/libthosttraderapi_se.dylib
           python -m cibuildwheel --platform macos --output-dir ../dist
