@@ -21,13 +21,17 @@
 
 ## 安装
 
+openctp-tts 库的版本号使用 `.` 分为4部分，前三部分是参考 `TTS` 官方的版本号: 6.3.15 / 6.3.19 / 6.5.1 / 6.6.1 / 6.6.7 / 6.6.9,
+第4部分是python库版本号(每重新发一次openctp-tts版本号加1)，因为 `pypi` 不允许出现重复的版本号，如果`TTS`官方库有变动，那么需要从新编译发版，使用第4部分来标记新的库。
+当然第4部分在开始时也可以不存在。
+
 ```shell
-pip install openctp-tts==6.3.15.*
-pip install openctp-tts==6.3.19.*
-pip install openctp-tts==6.5.1.*
-pip install openctp-tts==6.6.1.*
-pip install openctp-tts==6.6.7.*
-pip install openctp-tts==6.6.9.*
+pip install openctp-tts==6.3.15.1
+pip install openctp-tts==6.3.19
+pip install openctp-tts==6.5.1
+pip install openctp-tts==6.6.1
+pip install openctp-tts==6.6.7
+pip install openctp-tts==6.6.9
 ```
 
 ## 代码示例
