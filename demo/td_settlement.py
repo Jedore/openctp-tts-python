@@ -83,8 +83,8 @@ if __name__ == '__main__':
     td_front = 'tcp://121.37.90.193:20002'
 
     # 账号/密码 从 OpenCTP 公众号申请
-    user = '6862'
-    password = '123456'
+    user = 'xxxx'
+    password = 'xxxx'
     brokerid = ''
     authcode = ''
     appid = ''
