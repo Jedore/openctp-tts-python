@@ -39,8 +39,8 @@ md_api = mdapi.CThostFtdcMdApi.CreateFtdcMdApi("market")
 td_api = tdapi.CThostFtdcTraderApi.CreateFtdcTraderApi('user_id')
 ```
 
-- 行情 [demo](demo/mdapi.py)
-- 交易 [demo](demo/tdapi.py)
+- 行情 [demo](demo/md_login.py)
+- 交易 [demo](demo/td_login.py)
 
 ## 功能
 
