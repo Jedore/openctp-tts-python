@@ -32,15 +32,16 @@ pip install openctp-tts==6.6.9.*
 
 ## 代码示例
 
-```python
-from openctp_tts import mdapi, tdapi
+[Demo](demo)
 
-md_api = mdapi.CThostFtdcMdApi.CreateFtdcMdApi("market")
-td_api = tdapi.CThostFtdcTraderApi.CreateFtdcTraderApi('user_id')
-```
-
-- 行情 [demo](demo/md_login.py)
-- 交易 [demo](demo/td_login.py)
+- 行情
+    - 行情登录
+    - 行情订阅
+- 交易
+    - 登录
+    - 投资者结算单确认
+    - 查询合约
+    - 报单录入
 
 ## 功能
 

@@ -71,7 +71,7 @@ class CTdSpiImpl(tdapi.CThostFtdcTraderSpi):
         req = tdapi.CThostFtdcQryInstrumentField()
         req.BrokerID = broker_id
         req.InvestorID = user
-        req.InstrumentID = 'IF2308'
+        # req.InstrumentID = 'IF2308' # 不填查所有合约，填写则查询具体合约
         self._api.ReqQryInstrument(req, 0)
 
     def OnRspQryInstrument(self, pInstrument: tdapi.CThostFtdcInstrumentField,

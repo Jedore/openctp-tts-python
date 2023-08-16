@@ -69,9 +69,24 @@ class CTdSpiImpl(tdapi.CThostFtdcTraderSpi):
         print("登录成功:", pRspUserLogin.UserID, "TradingDay=", pRspUserLogin.TradingDay)
 
         print("报单录入请求")
+        # 市价单
         req = tdapi.CThostFtdcInputOrderField()
-        req.UserID = user
         req.BrokerID = broker_id
+        req.InvestorID = user
+        req.ExchangeID = 'SHFE'
+        req.InstrumentID = 'rb2310'
+        req.LimitPrice = 4000
+        req.OrderPriceType = tdapi.THOST_FTDC_OPT_AnyPrice
+        req.Direction = tdapi.THOST_FTDC_D_Buy
+        req.CombOffsetFlag = tdapi.THOST_FTDC_OF_Open
+        req.CombHedgeFlag = tdapi.THOST_FTDC_HF_Speculation
+        req.VolumeTotalOriginal = 1
+        req.IsAutoSuspend = 0
+        req.IsSwapOrder = 0
+        req.TimeCondition = tdapi.THOST_FTDC_TC_GFD
+        req.VolumeCondition = tdapi.THOST_FTDC_VC_AV
+        req.ContingentCondition = tdapi.THOST_FTDC_CC_Immediately
+        req.ForceCloseReason = tdapi.THOST_FTDC_FCC_NotForceClose
         self._api.ReqOrderInsert(req, 0)
 
     def OnRspOrderInsert(self, pInputOrder: tdapi.CThostFtdcInputOrderField,
