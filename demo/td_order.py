@@ -1,5 +1,5 @@
 """
-    交易demo - 查询合约
+    交易demo - 订单录入
 """
 
 from openctp_tts import tdapi
@@ -62,27 +62,40 @@ class CTdSpiImpl(tdapi.CThostFtdcTraderSpi):
                        pRspInfo: tdapi.CThostFtdcRspInfoField, nRequestID: int, bIsLast: bool):
         """ 登录应答 """
         if pRspInfo and pRspInfo.ErrorID:
-            print("登录失败: ErrorID=", pRspInfo.ErrorID, "ErrorMsg=", pRspInfo.ErrorMsg)
+            print("登录失败: ErrorID=", pRspInfo.ErrorID, "ErrorMsg=", pRspInfo.ErrorMsg, "TradingDay=",
+                  pRspUserLogin.TradingDay)
             return
 
         print("登录成功:", pRspUserLogin.UserID, "TradingDay=", pRspUserLogin.TradingDay)
 
-        print("查询合约请求")
-        req = tdapi.CThostFtdcQryInstrumentField()
+        print("报单录入请求")
+        req = tdapi.CThostFtdcInputOrderField()
+        req.UserID = user
         req.BrokerID = broker_id
-        req.InvestorID = user
-        req.InstrumentID = 'IF2308'
-        self._api.ReqQryInstrument(req, 0)
+        self._api.ReqOrderInsert(req, 0)
 
-    def OnRspQryInstrument(self, pInstrument: tdapi.CThostFtdcInstrumentField,
-                           pRspInfo: tdapi.CThostFtdcRspInfoField, nRequestID: int, bIsLast: bool):
-        """ 查询合约应答 """
+    def OnRspOrderInsert(self, pInputOrder: tdapi.CThostFtdcInputOrderField,
+                         pRspInfo: tdapi.CThostFtdcRspInfoField, nRequestID: int, bIsLast: bool):
+        """ 报单录入响应 """
         if pRspInfo and pRspInfo.ErrorID:
-            print(f"查询合约失败: ErrorID={pRspInfo.ErrorID}, ErrorMsg={pRspInfo.ErrorMsg}")
+            print("报单录入失败: ErrorID=", pRspInfo.ErrorID, "ErrorMsg=", pRspInfo.ErrorMsg)
+            return
 
-        print(f"查询合约成功: InstrumentID={pInstrument.InstrumentID}, "
-              f"ExchangeID={pInstrument.ExchangeID}, PriceTick={pInstrument.PriceTick}, "
-              f"ProductID={pInstrument.ProductID}, ExpireDate={pInstrument.ExpireDate}")
+        print("报单录入成功")
+
+    def OnRtnOrder(self, pOrder: tdapi.CThostFtdcOrderField):
+        """ 报单回报 """
+        print("报单回报: ",
+              "InstrumentID:", pOrder.InstrumentID,
+              "OrderStatus:", pOrder.OrderStatus,
+              "OrderRef:", pOrder.OrderRef,
+              )
+
+    def OnErrRtnOrderInsert(self, pInputOrder: tdapi.CThostFtdcInputOrderField,
+                            pRspInfo: tdapi.CThostFtdcRspInfoField):
+        """报单录入错误回报"""
+        if pRspInfo and pRspInfo.ErrorID:
+            print("报单录入错误回报: ErrorID=", pRspInfo.ErrorID, "ErrorMsg=", pRspInfo.ErrorMsg)
 
 
 if __name__ == '__main__':

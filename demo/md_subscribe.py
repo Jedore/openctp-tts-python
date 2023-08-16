@@ -4,6 +4,11 @@
 
 from openctp_tts import mdapi
 
+# 行情前置地址 openctp 7x24 环境
+md_front = 'tcp://121.37.80.177:20004'
+# 订阅合约 (确保是有效的合约)
+instruments = ('000002', '00700', 'BABA')
+
 
 class CMdSpiImpl(mdapi.CThostFtdcMdSpi):
     """ 回调实现类 """
@@ -59,11 +64,6 @@ class CMdSpiImpl(mdapi.CThostFtdcMdSpi):
 
 
 if __name__ == '__main__':
-    # 行情前置地址 openctp 7x24 环境
-    md_front = 'tcp://121.37.80.177:20004'
-    # 订阅合约 (确保是有效的合约)
-    instruments = ('000002', '00700', 'BABA')
-
     # 实例化请求类
     api = mdapi.CThostFtdcMdApi.CreateFtdcMdApi("market")  # type: mdapi.CThostFtdcMdApi
     print("TTS行情API版本号:", api.GetApiVersion())
@@ -80,5 +80,5 @@ if __name__ == '__main__':
     # 阻塞主线程，等待 连接、认证、登录、订阅合约、接收行情
     input()
 
-    # 释放请求类
+    # 释放实例
     api.Release()

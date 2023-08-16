@@ -4,6 +4,18 @@
 
 from openctp_tts import tdapi
 
+# 交易前置地址 可以在 http://121.37.80.177:50080/detail.html 查看TTS前置地址
+td_front = 'tcp://121.37.90.193:20002'
+
+# 账号/密码 从 OpenCTP 公众号申请
+user = 'xxx'
+password = 'xxx'
+
+# 以下为空即可
+broker_id = ''
+authcode = ''
+appid = ''
+
 
 class CTdSpiImpl(tdapi.CThostFtdcTraderSpi):
     """ 交易回调实现类 """
@@ -18,7 +30,7 @@ class CTdSpiImpl(tdapi.CThostFtdcTraderSpi):
 
         # 认证请求
         req = tdapi.CThostFtdcReqAuthenticateField()
-        req.BrokerID = brokerid
+        req.BrokerID = broker_id
         req.UserID = user
         req.AppID = appid
         req.AuthCode = authcode
@@ -40,7 +52,7 @@ class CTdSpiImpl(tdapi.CThostFtdcTraderSpi):
         if pRspInfo is None or pRspInfo.ErrorID == 0:
             # 登录请求
             req = tdapi.CThostFtdcReqUserLoginField()
-            req.BrokerID = brokerid
+            req.BrokerID = broker_id
             req.UserID = user
             req.Password = password
             req.UserProductInfo = "openctp"
@@ -57,16 +69,6 @@ class CTdSpiImpl(tdapi.CThostFtdcTraderSpi):
 
 
 if __name__ == '__main__':
-    # 交易前置地址 可以在 http://121.37.80.177:50080/detail.html 查看TTS前置地址
-    td_front = 'tcp://121.37.90.193:20002'
-
-    # 账号/密码 从 OpenCTP 公众号申请
-    user = 'xxxx'
-    password = 'xxxx'
-    brokerid = ''
-    authcode = ''
-    appid = ''
-
     # 实例化交易请求类
     api = tdapi.CThostFtdcTraderApi.CreateFtdcTraderApi(user)  # type: tdapi.CThostFtdcTraderApi
     print("TTS交易API版本号:", api.GetApiVersion())
@@ -86,3 +88,6 @@ if __name__ == '__main__':
     # 阻塞 等待
     print("Press Enter key to exit ...")
     input()
+
+    # 释放实例
+    api.Release()
