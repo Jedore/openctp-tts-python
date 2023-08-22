@@ -1,5 +1,5 @@
 """
-    交易demo - 连接并登录交易服务
+    交易demo - 查询报单请求
 """
 
 from openctp_tts import tdapi
@@ -62,10 +62,49 @@ class CTdSpiImpl(tdapi.CThostFtdcTraderSpi):
                        pRspInfo: tdapi.CThostFtdcRspInfoField, nRequestID: int, bIsLast: bool):
         """ 登录应答 """
         if pRspInfo and pRspInfo.ErrorID:
-            print("登录失败: ErrorID=", pRspInfo.ErrorID, "ErrorMsg=", pRspInfo.ErrorMsg)
+            print("登录失败: ErrorID=", pRspInfo.ErrorID, "ErrorMsg=", pRspInfo.ErrorMsg, "TradingDay=",
+                  pRspUserLogin.TradingDay)
             return
 
         print("登录成功:", pRspUserLogin.UserID, "TradingDay=", pRspUserLogin.TradingDay)
+
+        print("查询报单请求")
+
+        req = tdapi.CThostFtdcQryOrderField()
+        req.BrokerID = broker_id
+        req.InvestorID = user
+        req.UserID = user
+        # 以下条件也可作为过滤条件
+        # req.ExchangeID = 'CZCE' # 交易所代码
+        # req.InstrumentID = 'AP310' # 合约
+        # req.InsertTimeStart = '' # 开始时间
+        # req.InsertTimeEnd = '' # 结束时间
+
+        self._api.ReqQryOrder(req, 0)
+
+    def OnRspQryOrder(self, pOrder: tdapi.CThostFtdcOrderField, pRspInfo: tdapi.CThostFtdcRspInfoField,
+                      nRequestID: int, bIsLast: bool):
+        """ 查询报单响应 """
+        if pRspInfo and pRspInfo.ErrorID:
+            print("查询报单失败: ErrorID=", pRspInfo.ErrorID, "ErrorMsg=", pRspInfo.ErrorMsg)
+            return
+
+        print("查询报单成功:",
+              "InstrumentID:", pOrder.InstrumentID,
+              "ExchangeID:", pOrder.ExchangeID,
+              "FrontID:", pOrder.FrontID,
+              "SessionID:", pOrder.SessionID,
+              "OrderRef:", pOrder.OrderRef,
+              "OrderSysID:", pOrder.OrderSysID,
+              "OrderPriceType:", pOrder.OrderPriceType,
+              "Direction:", pOrder.Direction,
+              "CombOffsetFlag:", pOrder.CombOffsetFlag,
+              "LimitPrice:", pOrder.LimitPrice,
+              "VolumeTotalOriginal:", pOrder.VolumeTotalOriginal,
+              "OrderStatus:", pOrder.OrderStatus,
+              "InsertDate:", pOrder.InsertDate,
+              "InsertTime:", pOrder.InsertTime,
+              )
 
 
 if __name__ == '__main__':

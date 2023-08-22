@@ -69,25 +69,13 @@ class CTdSpiImpl(tdapi.CThostFtdcTraderSpi):
         print("登录成功:", pRspUserLogin.UserID, "TradingDay=", pRspUserLogin.TradingDay)
 
         print("报单录入请求")
+
+        # 请求市价单 或 限价单
+
         # 市价单
-        req = tdapi.CThostFtdcInputOrderField()
-        req.BrokerID = broker_id
-        req.InvestorID = user
-        req.ExchangeID = 'SHFE'
-        req.InstrumentID = 'rb2310'
-        req.LimitPrice = 4000
-        req.OrderPriceType = tdapi.THOST_FTDC_OPT_AnyPrice
-        req.Direction = tdapi.THOST_FTDC_D_Buy
-        req.CombOffsetFlag = tdapi.THOST_FTDC_OF_Open
-        req.CombHedgeFlag = tdapi.THOST_FTDC_HF_Speculation
-        req.VolumeTotalOriginal = 1
-        req.IsAutoSuspend = 0
-        req.IsSwapOrder = 0
-        req.TimeCondition = tdapi.THOST_FTDC_TC_GFD
-        req.VolumeCondition = tdapi.THOST_FTDC_VC_AV
-        req.ContingentCondition = tdapi.THOST_FTDC_CC_Immediately
-        req.ForceCloseReason = tdapi.THOST_FTDC_FCC_NotForceClose
-        self._api.ReqOrderInsert(req, 0)
+        self._api.ReqOrderInsert(market_order(), 0)
+        # 限价单
+        # self._api.ReqOrderInsert(limit_order(), 0)
 
     def OnRspOrderInsert(self, pInputOrder: tdapi.CThostFtdcInputOrderField,
                          pRspInfo: tdapi.CThostFtdcRspInfoField, nRequestID: int, bIsLast: bool):
@@ -100,10 +88,21 @@ class CTdSpiImpl(tdapi.CThostFtdcTraderSpi):
 
     def OnRtnOrder(self, pOrder: tdapi.CThostFtdcOrderField):
         """ 报单回报 """
-        print("报单回报: ",
+        print("报单回报:",
               "InstrumentID:", pOrder.InstrumentID,
-              "OrderStatus:", pOrder.OrderStatus,
+              "ExchangeID:", pOrder.ExchangeID,
+              "FrontID:", pOrder.FrontID,
+              "SessionID:", pOrder.SessionID,
               "OrderRef:", pOrder.OrderRef,
+              "OrderSysID:", pOrder.OrderSysID,
+              "OrderPriceType:", pOrder.OrderPriceType,
+              "Direction:", pOrder.Direction,
+              "CombOffsetFlag:", pOrder.CombOffsetFlag,
+              "LimitPrice:", pOrder.LimitPrice,
+              "VolumeTotalOriginal:", pOrder.VolumeTotalOriginal,
+              "OrderStatus:", pOrder.OrderStatus,
+              "InsertDate:", pOrder.InsertDate,
+              "InsertTime:", pOrder.InsertTime,
               )
 
     def OnErrRtnOrderInsert(self, pInputOrder: tdapi.CThostFtdcInputOrderField,
@@ -111,6 +110,54 @@ class CTdSpiImpl(tdapi.CThostFtdcTraderSpi):
         """报单录入错误回报"""
         if pRspInfo and pRspInfo.ErrorID:
             print("报单录入错误回报: ErrorID=", pRspInfo.ErrorID, "ErrorMsg=", pRspInfo.ErrorMsg)
+
+
+def market_order():
+    """市价单
+    注意选择一个相对活跃的合约
+    """
+    req = tdapi.CThostFtdcInputOrderField()
+    req.BrokerID = broker_id
+    req.InvestorID = user
+    req.ExchangeID = 'SHFE'
+    req.InstrumentID = 'rb2310'
+    req.LimitPrice = 0
+    req.OrderPriceType = tdapi.THOST_FTDC_OPT_AnyPrice  # 价格类型市价单
+    req.Direction = tdapi.THOST_FTDC_D_Buy  # 买
+    req.CombOffsetFlag = tdapi.THOST_FTDC_OF_Open  # 开仓
+    req.CombHedgeFlag = tdapi.THOST_FTDC_HF_Speculation
+    req.VolumeTotalOriginal = 1
+    req.IsAutoSuspend = 0
+    req.IsSwapOrder = 0
+    req.TimeCondition = tdapi.THOST_FTDC_TC_GFD
+    req.VolumeCondition = tdapi.THOST_FTDC_VC_AV
+    req.ContingentCondition = tdapi.THOST_FTDC_CC_Immediately
+    req.ForceCloseReason = tdapi.THOST_FTDC_FCC_NotForceClose
+    return req
+
+
+def limit_order():
+    """限价单
+    注意选择一个相对活跃的合约及合适的价格
+    """
+    req = tdapi.CThostFtdcInputOrderField()
+    req.BrokerID = broker_id
+    req.InvestorID = user
+    req.ExchangeID = 'CZCE'
+    req.InstrumentID = 'AP310'  # 合约ID
+    req.LimitPrice = 100  # 价格
+    req.OrderPriceType = tdapi.THOST_FTDC_OPT_LimitPrice  # 价格类型限价单
+    req.Direction = tdapi.THOST_FTDC_D_Buy  # 买
+    req.CombOffsetFlag = tdapi.THOST_FTDC_OF_Open  # 开仓
+    req.CombHedgeFlag = tdapi.THOST_FTDC_HF_Speculation
+    req.VolumeTotalOriginal = 1
+    req.IsAutoSuspend = 0
+    req.IsSwapOrder = 0
+    req.TimeCondition = tdapi.THOST_FTDC_TC_GFD
+    req.VolumeCondition = tdapi.THOST_FTDC_VC_AV
+    req.ContingentCondition = tdapi.THOST_FTDC_CC_Immediately
+    req.ForceCloseReason = tdapi.THOST_FTDC_FCC_NotForceClose
+    return req
 
 
 if __name__ == '__main__':
@@ -125,7 +172,7 @@ if __name__ == '__main__':
     api.RegisterSpi(spi)
     # 订阅私有流
     api.SubscribePrivateTopic(tdapi.THOST_TERT_QUICK)
-    # 订阅共有流
+    # 订阅公有流
     api.SubscribePublicTopic(tdapi.THOST_TERT_QUICK)
     # 初始化交易实例
     api.Init()

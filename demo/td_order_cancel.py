@@ -1,5 +1,5 @@
 """
-    交易demo - 连接并登录交易服务
+    交易demo - 撤销报单请求
 """
 
 from openctp_tts import tdapi
@@ -8,8 +8,8 @@ from openctp_tts import tdapi
 td_front = 'tcp://121.37.90.193:20002'
 
 # 账号/密码 从 OpenCTP 公众号申请
-user = 'xxx'
-password = 'xxx'
+user = '4645'
+password = '557557'
 
 # 以下为空即可
 broker_id = ''
@@ -62,10 +62,53 @@ class CTdSpiImpl(tdapi.CThostFtdcTraderSpi):
                        pRspInfo: tdapi.CThostFtdcRspInfoField, nRequestID: int, bIsLast: bool):
         """ 登录应答 """
         if pRspInfo and pRspInfo.ErrorID:
-            print("登录失败: ErrorID=", pRspInfo.ErrorID, "ErrorMsg=", pRspInfo.ErrorMsg)
+            print("登录失败: ErrorID=", pRspInfo.ErrorID, "ErrorMsg=", pRspInfo.ErrorMsg, "TradingDay=",
+                  pRspUserLogin.TradingDay)
             return
 
         print("登录成功:", pRspUserLogin.UserID, "TradingDay=", pRspUserLogin.TradingDay)
+
+        print("撤销订单请求")
+
+        # 撤单请求，首先需要有一笔未成交的订单，可以使用限价单，按照未成交订单信息填写撤单请求
+        req = tdapi.CThostFtdcInputOrderActionField()
+        req.BrokerID = broker_id
+        req.InvestorID = user
+        req.UserID = user
+        req.ExchangeID = 'CZCE'
+        req.InstrumentID = 'AP310'
+        req.ActionFlag = tdapi.THOST_FTDC_AF_Delete
+        # 标记唯一订单。有两种组合方式
+        # 方式一
+        req.OrderSysID = ''
+        # 方式二
+        # req.OrderRef = '1'
+        # req.FrontID = 0
+        # req.SessionID = 157388
+        # 若成功，会通过 报单回报 返回新的订单状态, 若失败则会响应失败
+        self._api.ReqOrderAction(req, 0)
+
+    def OnRspOrderAction(self, pInputOrderAction: tdapi.CThostFtdcInputOrderActionField,
+                         pRspInfo: tdapi.CThostFtdcRspInfoField, nRequestID: int, bIsLast: bool):
+        """ 撤销报单响应 """
+        if pRspInfo and pRspInfo.ErrorID:
+            print("撤销报单失败: ErrorID=", pRspInfo.ErrorID, "ErrorMsg=", pRspInfo.ErrorMsg)
+            return
+
+    def OnRtnOrder(self, pOrder: tdapi.CThostFtdcOrderField):
+        """ 报单回报 """
+        print("报单回报: ",
+              "InstrumentID:", pOrder.InstrumentID,
+              "OrderStatus:", pOrder.OrderStatus,
+              "OrderRef:", pOrder.OrderRef,
+              )
+
+    def OnErrRtnOrderAction(self, pOrderAction: tdapi.CThostFtdcOrderActionField,
+                            pRspInfo: tdapi.CThostFtdcRspInfoField):
+        """ 报单操作错误回报 """
+        if pRspInfo and pRspInfo.ErrorID:
+            print("报单操作错误回报: ErrorID=", pRspInfo.ErrorID, "ErrorMsg=", pRspInfo.ErrorMsg)
+            return
 
 
 if __name__ == '__main__':

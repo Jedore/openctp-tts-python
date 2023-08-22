@@ -102,7 +102,7 @@ if __name__ == '__main__':
     api.RegisterSpi(spi)
     # 订阅私有流
     api.SubscribePrivateTopic(tdapi.THOST_TERT_QUICK)
-    # 订阅共有流
+    # 订阅公有流
     api.SubscribePublicTopic(tdapi.THOST_TERT_QUICK)
     # 初始化交易实例
     api.Init()
