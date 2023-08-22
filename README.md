@@ -30,9 +30,11 @@ pip install openctp-tts==6.6.7.*
 pip install openctp-tts==6.6.9.*
 ```
 
-## 代码示例
+## Demo参考
 
 [Demo](demo)
+
+包含以下示例:
 
 - 行情
     - 行情登录
@@ -41,7 +43,9 @@ pip install openctp-tts==6.6.9.*
     - 登录
     - 投资者结算单确认
     - 查询合约
-    - 报单录入
+    - 报单录入(市价单、限价单)
+    - 报单查询
+    - 报单撤销
 
 ## 功能
 
