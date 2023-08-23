@@ -92,6 +92,6 @@ pip install openctp-tts==6.6.9.*
     sudo localedef -c -f GB18030 -i zh_CN zh_CN.GB18030
    
     # CentOS (7)
-    yum install -y kde-l10n-Chinese
-    yum reinstall -y glibc-common
+    sudo yum install -y kde-l10n-Chinese
+    sudo yum reinstall -y glibc-common
     ```
