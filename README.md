@@ -19,6 +19,9 @@
     </a>        
 </p>
 
+openctp TTS 提供了稳定的7x24模拟交易平台, 完全兼容上期技术官方CTPAPI接口，但同样也是 C++ 版本。
+本项目提供了TTSAPI对应的Python库，用于使用Python接入TTS系统。
+
 ## 安装
 
 ```shell
@@ -37,15 +40,15 @@ pip install openctp-tts==6.6.9.*
 包含以下示例:
 
 - 行情
-    - 行情登录
-    - 行情订阅
+    - [登录](demo/md_login.py)
+    - [订阅](demo/md_subscribe.py)
 - 交易
-    - 登录
-    - 投资者结算单确认
-    - 查询合约
-    - 报单录入(市价单、限价单)
-    - 报单查询
-    - 报单撤销
+    - [登录](demo/td_login.py)
+    - [投资者结算单确认](demo/td_settlement.py)
+    - [查询合约](demo/td_qry_instrument.py)
+    - [报单录入](demo/td_order_insert.py)
+    - [报单查询](demo/td_order_query.py)
+    - [报单撤销](demo/td_order_cancel.py)
 
 ## 功能
 
@@ -66,3 +69,29 @@ pip install openctp-tts==6.6.9.*
 
 - 关于TTS更多的信息参见 [openctp](https://github.com/openctp/openctp)
 - [更新日志](CHANGELOG.md)
+- 限于精力有限，本项目前只进行了有限的测试，正式使用前请一定进行充分的测试。
+- **使用本项目进行实盘交易的后果完全由使用者自己承担!!!**
+
+## 常见问题
+
+1. Linux下安装后，导入时报错
+    ```text
+    >>> import openctp_tts
+    terminate called after throwing an instance of 'std::runtime_error'
+      what():  locale::facet::_S_create_c_locale name not valid
+    Aborted
+    ```
+   这是字符集问题，方案：
+    ```bash
+    # Ubuntu (20.04)
+    sudo apt-get install -y locales
+    sudo locale-gen zh_CN.GB18030
+   
+    # Debian (11)
+    sudo apt install locales-all
+    sudo localedef -c -f GB18030 -i zh_CN zh_CN.GB18030
+   
+    # CentOS (7)
+    yum install -y kde-l10n-Chinese
+    yum reinstall -y glibc-common
+    ```

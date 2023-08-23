@@ -80,7 +80,7 @@ class CTdSpiImpl(tdapi.CThostFtdcTraderSpi):
         if pRspInfo and pRspInfo.ErrorID:
             print(f"查询合约失败: ErrorID={pRspInfo.ErrorID}, ErrorMsg={pRspInfo.ErrorMsg}")
 
-        print(f"查询合约成功: InstrumentID={pInstrument.InstrumentID}, "
+        print(f"查询合约成功: InstrumentID={pInstrument.InstrumentID}, InstrumentName={pInstrument.InstrumentName}"
               f"ExchangeID={pInstrument.ExchangeID}, PriceTick={pInstrument.PriceTick}, "
               f"ProductID={pInstrument.ProductID}, ExpireDate={pInstrument.ExpireDate}")
 
