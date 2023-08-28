@@ -49,6 +49,12 @@ pip install openctp-tts==6.6.9.*
     - [报单录入](demo/td_order_insert.py)
     - [报单查询](demo/td_order_query.py)
     - [报单撤销](demo/td_order_cancel.py)
+    - [请求查询合约手续费率](demo/td_qry_instrument_commission_rate.py)
+    - [请求查询行情](demo/td_qry_depth_market_data.py)
+
+## 工具脚本
+
+- [ttsping](tools/ttsping.py) 检查前置服务是否可正常连接
 
 ## 功能
 

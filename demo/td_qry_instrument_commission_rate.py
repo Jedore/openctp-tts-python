@@ -1,6 +1,8 @@
 """
-    交易demo - 投资者结算结果确认
+    交易demo - 请求查询合约手续费率
 """
+
+import inspect
 
 from openctp_tts import tdapi
 
@@ -52,32 +54,33 @@ class CTdSpiImpl(tdapi.CThostFtdcTraderSpi):
                        pRspInfo: tdapi.CThostFtdcRspInfoField, nRequestID: int, bIsLast: bool):
         """ 登录应答 """
         if pRspInfo and pRspInfo.ErrorID:
-            print("登录失败: ErrorID=", pRspInfo.ErrorID, "ErrorMsg=", pRspInfo.ErrorMsg, "TradingDay=",
-                  pRspUserLogin.TradingDay)
+            print("登录失败: ErrorID=", pRspInfo.ErrorID, "ErrorMsg=", pRspInfo.ErrorMsg)
             return
 
         print("登录成功:", pRspUserLogin.UserID, "TradingDay=", pRspUserLogin.TradingDay)
 
-        print("投资者结算结果确认请求")
-        req = tdapi.CThostFtdcSettlementInfoConfirmField()
+        # 请求查询合约手续费率,  若 合约不存在则无返回
+        req = tdapi.CThostFtdcQryInstrumentCommissionRateField()
         req.BrokerID = broker_id
         req.InvestorID = user
-        self._api.ReqSettlementInfoConfirm(req, 0)
+        req.InstrumentID = 'IF2310'  # 更新需要查询的合约ID
+        # req.ExchangeID = 'CFFEX'
 
-    def OnRspSettlementInfoConfirm(self, pSettlementInfoConfirm: tdapi.CThostFtdcSettlementInfoConfirmField,
-                                   pRspInfo: tdapi.CThostFtdcRspInfoField, nRequestID: int, bIsLast: bool):
-        """ 确认投资者结算结果应答 """
+        self._api.ReqQryInstrumentCommissionRate(req, 0)
+
+    def OnRspQryInstrumentCommissionRate(self, pInstrumentCommissionRate: tdapi.CThostFtdcInstrumentCommissionRateField,
+                                         pRspInfo: tdapi.CThostFtdcRspInfoField, nRequestID: int, bIsLast: bool):
+        """ 请求查询合约手续费率响应 """
         if pRspInfo and pRspInfo.ErrorID:
-            print("确认投资者结算结果失败:", "ErrorID=", pRspInfo.ErrorID, "ErrorMsg=", pRspInfo.ErrorMsg)
+            print("请求查询合约手续费率失败: ErrorID=", pRspInfo.ErrorID, "ErrorMsg=", pRspInfo.ErrorMsg)
             return
 
-        print("确认投资者结算结果成功:",
-              "ConfirmDate:", pSettlementInfoConfirm.ConfirmDate,
-              "ConfirmTime:", pSettlementInfoConfirm.ConfirmTime,
-              "SettlementID:", pSettlementInfoConfirm.SettlementID,
-              "AccountID:", pSettlementInfoConfirm.AccountID,
-              "CurrencyID:", pSettlementInfoConfirm.CurrencyID,
-              )
+        detail = ''
+        for name, value in inspect.getmembers(pInstrumentCommissionRate):
+            if name[0].isupper():
+                detail = f'{detail} {name}={value}, '
+
+        print("请求查询合约手续费率成功:", detail)
 
 
 if __name__ == '__main__':

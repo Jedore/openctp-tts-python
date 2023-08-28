@@ -1,6 +1,7 @@
 """
-    交易demo - 投资者结算结果确认
+    交易demo - 请求查询行情
 """
+import inspect
 
 from openctp_tts import tdapi
 
@@ -52,32 +53,31 @@ class CTdSpiImpl(tdapi.CThostFtdcTraderSpi):
                        pRspInfo: tdapi.CThostFtdcRspInfoField, nRequestID: int, bIsLast: bool):
         """ 登录应答 """
         if pRspInfo and pRspInfo.ErrorID:
-            print("登录失败: ErrorID=", pRspInfo.ErrorID, "ErrorMsg=", pRspInfo.ErrorMsg, "TradingDay=",
-                  pRspUserLogin.TradingDay)
+            print("登录失败: ErrorID=", pRspInfo.ErrorID, "ErrorMsg=", pRspInfo.ErrorMsg)
             return
 
         print("登录成功:", pRspUserLogin.UserID, "TradingDay=", pRspUserLogin.TradingDay)
 
-        print("投资者结算结果确认请求")
-        req = tdapi.CThostFtdcSettlementInfoConfirmField()
-        req.BrokerID = broker_id
-        req.InvestorID = user
-        self._api.ReqSettlementInfoConfirm(req, 0)
+        # 请求查询行情, 若合约不存在则无返回
+        req = tdapi.CThostFtdcQryDepthMarketDataField()
+        req.InstrumentID = 'IF2310'  # 若不传则查全部
+        # req.ExchangeID = 'CFFEX'
 
-    def OnRspSettlementInfoConfirm(self, pSettlementInfoConfirm: tdapi.CThostFtdcSettlementInfoConfirmField,
-                                   pRspInfo: tdapi.CThostFtdcRspInfoField, nRequestID: int, bIsLast: bool):
-        """ 确认投资者结算结果应答 """
+        self._api.ReqQryDepthMarketData(req, 0)
+
+    def OnRspQryDepthMarketData(self, pDepthMarketData: tdapi.CThostFtdcDepthMarketDataField,
+                                pRspInfo: tdapi.CThostFtdcRspInfoField, nRequestID: int, bIsLast: bool):
+        """ 请求查询行情响应 """
         if pRspInfo and pRspInfo.ErrorID:
-            print("确认投资者结算结果失败:", "ErrorID=", pRspInfo.ErrorID, "ErrorMsg=", pRspInfo.ErrorMsg)
+            print("请求查询行情失败: ErrorID=", pRspInfo.ErrorID, "ErrorMsg=", pRspInfo.ErrorMsg)
             return
 
-        print("确认投资者结算结果成功:",
-              "ConfirmDate:", pSettlementInfoConfirm.ConfirmDate,
-              "ConfirmTime:", pSettlementInfoConfirm.ConfirmTime,
-              "SettlementID:", pSettlementInfoConfirm.SettlementID,
-              "AccountID:", pSettlementInfoConfirm.AccountID,
-              "CurrencyID:", pSettlementInfoConfirm.CurrencyID,
-              )
+        detail = ''
+        for name, value in inspect.getmembers(pDepthMarketData):
+            if name[0].isupper():
+                detail = f'{detail} {name}={value}, '
+
+        print("请求查询行情成功:", detail)
 
 
 if __name__ == '__main__':
