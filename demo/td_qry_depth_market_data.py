@@ -5,7 +5,15 @@ import inspect
 
 from openctp_tts import tdapi
 
-from config import td_front, user, password, broker_id, authcode, appid
+from config import (
+    td_fronts,
+    td_front,
+    user,
+    password,
+    broker_id,
+    authcode,
+    appid,
+)
 
 
 class CTdSpiImpl(tdapi.CThostFtdcTraderSpi):
@@ -60,7 +68,7 @@ class CTdSpiImpl(tdapi.CThostFtdcTraderSpi):
 
         # 请求查询行情, 若合约不存在则无返回
         req = tdapi.CThostFtdcQryDepthMarketDataField()
-        req.InstrumentID = 'IF2310'  # 若不传则查全部
+        req.InstrumentID = 'IF2310'  # 若不传则返回持仓合约的行情
         # req.ExchangeID = 'CFFEX'
 
         self._api.ReqQryDepthMarketData(req, 0)
@@ -84,6 +92,7 @@ if __name__ == '__main__':
     # 实例化交易请求类
     api = tdapi.CThostFtdcTraderApi.CreateFtdcTraderApi(user)  # type: tdapi.CThostFtdcTraderApi
     print("TTS交易API版本号:", api.GetApiVersion())
+    print("交易前置:", td_fronts[td_front], td_front)
     # 实例化交易回调实现类
     spi = CTdSpiImpl(api)
     # 注册交易前置地址
