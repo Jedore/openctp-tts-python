@@ -18,6 +18,12 @@
         <img src="https://badgen.net/badge/plat/Windows|Linux|Mac/green" />  
     </a>        
 </p>
+<p align="center">     
+    <a href="https://pepy.tech/project/openctp-ctp">         
+        <img src="https://static.pepy.tech/badge/openctp-ctp" />  
+    </a>        
+</p>
+
 
 openctp TTS 提供了稳定的7x24模拟交易平台, 完全兼容上期技术官方CTPAPI接口，但同样也是 C++ 版本。
 本项目提供了TTSAPI对应的Python库，用于使用Python接入TTS系统。
