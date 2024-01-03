@@ -5,23 +5,13 @@
 </p>
 
 <p align="center">     
-    <a href="#" target="_blank">
-        <img src="https://badgen.net/badge/tts/6.3.15|6.3.19|6.5.1|6.6.1|6.6.7|6.6.9/green" />
-    </a>       
-    <a href="#">     
-        <img src="https://badgen.net/badge/python/3.7|3.8|3.9|3.10|3.11/green" />          
-    </a> 
-    <a href="#">         
-        <img src="https://badgen.net/badge/plat/Windows|Linux|Mac/green" />  
-    </a>        
+    <a href="#" target="_blank"><img src="https://badgen.net/badge/tts/6.3.15|6.3.19|6.5.1|6.6.1|6.6.7|6.6.9/green" /></a>       
+    <a href="#"><img src="https://badgen.net/badge/python/3.7|3.8|3.9|3.10|3.11/green" /></a> 
+    <a href="#"><img src="https://badgen.net/badge/plat/Windows|Linux|Mac/green" /></a>        
 </p>
 <p align="center">     
-    <a href="https://pypi.org/project/openctp-tts" target="_blank">                  
-        <img src="https://badgen.net/badge/pypi/openctp-tts/green" />     
-    </a>     
-    <a href="https://pepy.tech/project/openctp-tts">         
-        <img src="https://static.pepy.tech/badge/openctp-tts" />  
-    </a>        
+    <a href="https://pypi.org/project/openctp-tts" target="_blank"><img src="https://badgen.net/badge/pypi/openctp-tts/green" /></a>     
+    <a href="https://pepy.tech/project/openctp-tts"><img src="https://static.pepy.tech/badge/openctp-tts" /></a>        
 </p>
 
 
