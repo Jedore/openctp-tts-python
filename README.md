@@ -51,13 +51,13 @@ openctp TTS 提供了稳定的**7x24模拟交易平台**, 其接口 TTSAPI 完�
 需要自行提前准备好 Python 环境, 选择一个版本安装，如 6.6.9
 
 ```shell
-pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --trusted-host=pypi.tuna.tsinghua.edu.cn openctp-tts==6.6.9.*
+pip install openctp-tts==6.6.9.* -i https://pypi.tuna.tsinghua.edu.cn/simple --trusted-host=pypi.tuna.tsinghua.edu.cn
 ```
 
 `zsh`安装:
 
 ```shell
-pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --trusted-host=pypi.tuna.tsinghua.edu.cn openctp-tts==6.6.9.\*
+pip install openctp-tts==6.6.9.\* -i https://pypi.tuna.tsinghua.edu.cn/simple --trusted-host=pypi.tuna.tsinghua.edu.cn
 ```
 
 引用方法:
