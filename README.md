@@ -34,7 +34,7 @@ openctp TTS 提供了稳定的**7x24模拟交易平台**, 其接口 TTSAPI 完�
 
 ## 支持版本
 
-| TTSAPI(C++) | openctp-tts(python) | win x86            | win x64            | linux x86          | mac x64            | mac arm64          |
+| TTSAPI(C++) | openctp-tts(python) | win x86            | win x64            | linux x64          | mac x64            | mac arm64          |
 |-------------|---------------------|--------------------|--------------------|--------------------|--------------------|--------------------|
 | 6.3.15      | 6.3.15.*            | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | 6.3.19_P1   | 6.3.19.*            | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
