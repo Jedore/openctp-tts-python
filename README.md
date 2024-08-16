@@ -1,3 +1,5 @@
+> :warning: 本项目不再维护，建议使用 [openctp-ctp](https://github.com/openctp/openctp-ctp-python) 和 [openctp-ctp-channels](https://github.com/Jedore/openctp-ctp-channels) :sparkles:
+
 <h1 align="center">openctp-tts</h1>
 
 <div>
